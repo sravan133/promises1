@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE-edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>promises</title>
+
+</head>
+<body>
+      <h1>promises</h1>
+      <p>promises are mean to be broken</p>
+</body>
+<script>
+                    //sample array of post.
+                    var posts=[{title:'POST1',createdAt:new Date()},{title:'POST2',createdAt:new Date()}]
+
+                    //function to update the last user activity.
+                    function updateLastUserActivityTime(){
+                                        return new Promise((resolve)=>{
+                                                            setTimeout(()=>{
+                                                                                var lastActivityTime=new Date();
+                                                                                resolve(lastActivityTime)
+                                                            },1000)
+
+                                        })
+                    }
+
+                    // function to crate a new post.
+                    function createPost(){
+                                        return new Promise((resolve)=>{
+                                                            setTimeout(()=>{
+                                                                                var newpost={title:'POST3',createdAt:new Date()}
+                                                                                posts.push(newpost)
+                                                                                resovle(newpost)
+                                                            },1000)
+                                        })
+                    }
+
+                    //function to delete a post.
+                    function deletePost(){
+                                        return new Promise((resolve,reject)=>{
+                                                            setTimeout(()=>{
+                                                                                if(posts.length>0){
+                                                                                                    var delpost=posts.pop()
+                                                                                                    resolve(delpost)
+                                                                                }
+                                                                                else{
+                                                                                                    reject("ERROR: ARRAY IS EMPTY")
+                                                                                }
+                                                            },1000)
+                                        })
+                    }
+
+                    //calling functions.
+                    createPost().then(()=>{
+                                        updateLastUserActivityTime().then((lastActivityTime)=>{
+
+                                                            console.log("last activity time:",lastActivityTime)
+                                                            console.log("All posts:",posts)
+                                                            deletePost().then((delpost)=>{
+                                                                                console.log("Delete post :",delpost)
+                                                                                console.log("remaining Posts:",posts)
+                                                            }).catch((err)=>{
+                                                                                console.log(err)
+                                                            })
+                                        })
+
+                    })
+</script>
+</html>
